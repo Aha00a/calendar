@@ -1,0 +1,31 @@
+.calendar {
+  font-size: 1vw;
+}
+.calendar table.month {
+  border-collapse: collapse;
+  display: inline-block;
+  vertical-align: top;
+  margin: 10px;
+}
+.calendar table.month td.yearMonth {
+  width: 4vw;
+  height: 4vw;
+  text-align: center;
+}
+.calendar table.month td.day {
+  border: 1px solid #ccc;
+  width: 4vw;
+  height: 4vw;
+  vertical-align: middle;
+  text-align: center;
+}
+.calendar table.month td.day.weekday6 {
+  color: #00f;
+}
+.calendar table.month td.day.weekday7 {
+  color: #f00;
+}
+.calendar table.month td.day.today {
+  background-color: #f00;
+}
+/*# sourceMappingURL=less.css.map */

@@ -1,0 +1,27 @@
+.calendar {
+    @cellSize: 4vw;
+    font-size: 1vw;
+    table.month {
+        border-collapse: collapse;
+        display: inline-block;
+        vertical-align: top;
+        margin: 10px;
+        td.yearMonth {
+            width: @cellSize;
+            height: @cellSize;
+            text-align: center;
+        }
+        td.day {
+            border: 1px solid #ccc;
+            width: @cellSize;
+            height: @cellSize;
+            vertical-align: middle;
+            text-align: center;
+            &.weekday6 { color: #00f; }
+            &.weekday7 { color: #f00; }
+            &.today {
+                background-color: #f00;
+            }
+        }
+    }
+}

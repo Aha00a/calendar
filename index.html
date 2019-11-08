@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+
+<html lang="ko">
+    <head>
+        <meta charset="UTF-8">
+        <title>title</title>
+        <script src="https://cdn.polyfill.io/v2/polyfill.js?features=default,String.prototype.repeat,Array.prototype.find,Array.prototype.findIndex,Math.trunc,Math.sign"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.js" integrity="sha256-L/S5mZS8SPJVWoKym3Zwgf2f3/s3X3MaZ7QBA9HdnN8=" crossorigin="anonymous"></script>
+        <script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.15/lodash.min.js" integrity="sha256-VeNaFBVDhoX3H+gJ37DpT/nTuZTdjYro9yBruHjVmoQ=" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/luxon@1.21.1/build/global/luxon.min.js" integrity="sha256-lOA2IFesJNmVvGlrjjCP0fdBZR0XlSRyUBCs6yuVdhs=" crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="less.css"/>
+        <script type="text/babel">
+            const DateTime = luxon.DateTime;
+            const today = DateTime.local();
+
+            function tag(name, cls) {
+                return $(`<${name}></${name}>`).addClass(cls ? cls : '');
+            }
+
+
+            function drawMonth(dateTime) {
+                const dateTimeFirst = dateTime.startOf('month');
+                const dateTimeLast = dateTimeFirst.plus({months: '1'});
+                console.log(dateTimeFirst.toISODate(), dateTimeLast.toISODate());
+                const arrayDays = [];
+                for(let i = dateTimeFirst; i < dateTimeLast; i = i.plus({days: 1})) {
+                    arrayDays.push(i);
+                }
+                const arrayDaysPadded = _.concat(
+                    Array(_.head(arrayDays).weekday - 1).fill(0).map(_ => null),
+                    arrayDays,
+                    Array(7 - _.last(arrayDays).weekday).fill(0).map(_ => null),
+                );
+                const arrayDaysPaddedChunk = _.chunk(arrayDaysPadded, 7);
+                const table = tag('table', 'month')
+                    .append(tag('thead').append([
+                        tag('tr').append(tag('td', 'yearMonth').attr('colspan', 7).text(dateTime.toFormat('yyyy-MM'))),
+                        tag('tr').append("월화수목금토일".split("").map(v => tag('td', 'day weekday' + v).text(v)))
+                    ]))
+                    .append(tag('tbody').append(
+                        arrayDaysPaddedChunk.map(w => tag('tr', 'week').append(
+                            w.map(d => tag('td', 'day').addClass(d ? `weekday${d.weekday}` : '').attr('data-date', d ? d.toISODate() : '').text(d ? d.day : ''))
+                        ))
+                    ));
+                table.find(`[data-date=${today.toISODate()}]`).addClass('today');
+                return table;
+            }
+            $(function () {
+                const dateTime = DateTime.local();
+                const dateTimePrevMonth = dateTime.minus({'months': 1});
+                const dateTimeNextMonth = dateTime.plus({'months': 1});
+
+                $('.calendar').append([
+                    drawMonth(dateTimePrevMonth),
+                    drawMonth(dateTime),
+                    drawMonth(dateTimeNextMonth),
+                ]);
+
+                // noinspection JSUnusedLocalSymbols
+                $.ajax({
+                    url: 'holiday.generated.json',
+                    method: 'get',
+                    success: function (data, textStatus, jqXHR) {
+                        console.log(data.map(v => ({...v, dateTime: DateTime.parse(v.date)})))
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        debugger;
+                    }
+                });
+            });
+            console.log(100);
+        </script>
+    </head>
+    <body>
+        <div class="calendar">
+            <table>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </body>
+</html>
