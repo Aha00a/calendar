@@ -7,8 +7,12 @@ body {
 }
 .calendar {
   font-size: 1.5vw;
-  vertical-align: middle;
   margin: 0;
+  height: 100%;
+  text-align: center;
+}
+.calendar table.center.vmiddle {
+  width: 100%;
   height: 100%;
 }
 .calendar table.month {

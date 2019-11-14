@@ -56,7 +56,9 @@
                 $calendar.append(tag('button', 'prev').text('<').click(() => {
                     drawCalendar($calendar, dateTimePrevMonth);
                 }));
-                $calendar.append(arrayMonth.map(drawMonth));
+                $calendar.append(tag('table', 'center vmiddle').append(tag('tbody').append(tag('tr').append(tag('td').append(
+                    arrayMonth.map(drawMonth)
+                )))));
                 $calendar.append(tag('button', 'next').text('>').click(() => {
                     drawCalendar($calendar, dateTimeNextMonth);
                 }));
