@@ -69,4 +69,9 @@ body {
 .calendar button.next.next {
   right: 0;
 }
+a.gitHubLink {
+  position: fixed;
+  left: 7vw;
+  bottom: 3.5vw;
+}
 /*# sourceMappingURL=less.css.map */

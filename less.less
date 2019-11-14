@@ -7,9 +7,11 @@ html, body {
     height: 100%;
     font-family: 'Noto Sans KR', sans-serif;
 }
+
+@cellSize: 3.5vw;
+@fontSize: 1.5vw;
+
 .calendar {
-    @cellSize: 3.5vw;
-    @fontSize: 1.5vw;
     font-size: @fontSize;
     margin: 0;
     height: 100%;
@@ -50,4 +52,10 @@ html, body {
         &.prev { left: 0; }
         &.next { right: 0; }
     }
+}
+
+a.gitHubLink {
+    position: fixed;
+    left: @cellSize * 2;
+    bottom: @cellSize;
 }
