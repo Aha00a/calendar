@@ -13,6 +13,10 @@ https://aha00a.github.io/calendar/
   * 안중요한 요구사항
     * static하게 돌아가야함. - github page로 올릴거라서 server필요없어야 함
     * IE11도 지원하기. 현재는 지원하지만, 상황에 따라 빼버릴까 싶기도..
+      * IE11을 포기하면 얻을 수 있는 이점. 
+        * `async/await` 쓸 수 있음
+        * `vmin` 쓸 수 있음.
+      
 
 ## 참고URL
  * 음양력변환계산 - https://astro.kasi.re.kr/life/pageView/8
