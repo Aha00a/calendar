@@ -3,13 +3,13 @@ body {
   margin: 0;
   padding: 0;
   text-align: center;
+  height: 100%;
 }
 .calendar {
-  position: relative;
   font-size: 1.5vw;
-  padding-left: 3vw;
-  padding-right: 3vw;
-  display: inline-block;
+  vertical-align: middle;
+  margin: 0;
+  height: 100%;
 }
 .calendar table.month {
   border-collapse: collapse;
@@ -44,6 +44,8 @@ body {
   position: absolute;
   top: 0;
   bottom: 0;
+  width: 3.5vw;
+  font-size: 1.5vw;
 }
 .calendar button.prev.prev,
 .calendar button.next.prev {
