@@ -1,9 +1,17 @@
+@font-face {
+  font-family: 'Noto Sans KR';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Noto Sans KR Regular'), local('NotoSansKR-Regular'), url(https://fonts.gstatic.com/s/notosanskr/v12/PbykFmXiEBPT4ITbgNA5CgmG0X7u.otf) format('opentype');
+}
 html,
 body {
   margin: 0;
   padding: 0;
   text-align: center;
   height: 100%;
+  font-family: 'Noto Sans KR', sans-serif;
 }
 .calendar {
   font-size: 1.5vw;
