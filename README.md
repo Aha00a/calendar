@@ -20,6 +20,7 @@ https://aha00a.github.io/calendar/
       * 현재 prev/next 버튼의 height가 100%가 안되는 문제가 있음. 고치던지.. 버리던지.. 고민중.. 그 외에는 다 잘 됨.
   * 추가로 드는 생각
     * 음력을 지금 로컬에서 미리 계산해놓고 client에서는 결과만 갖다 쓰는데, static해야하지 않다면 음력 api를 따로 만들까 싶기도..      
+    * 공휴일 계산시 공휴일이 도입된 날, 폐지된 날을 반영하여 지원하는 년도를 늘리기 
 
 ## 참고URL
  * 음양력변환계산 - https://astro.kasi.re.kr/life/pageView/8
