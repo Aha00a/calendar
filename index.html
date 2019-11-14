@@ -6,7 +6,7 @@
         <title>title</title>
         <script src="https://cdn.polyfill.io/v2/polyfill.js?features=default,String.prototype.repeat,Array.prototype.find,Array.prototype.findIndex,Math.trunc,Math.sign"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.js" integrity="sha256-L/S5mZS8SPJVWoKym3Zwgf2f3/s3X3MaZ7QBA9HdnN8=" crossorigin="anonymous"></script>
-        <script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.15/lodash.min.js" integrity="sha256-VeNaFBVDhoX3H+gJ37DpT/nTuZTdjYro9yBruHjVmoQ=" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/luxon@1.21.1/build/global/luxon.min.js" integrity="sha256-lOA2IFesJNmVvGlrjjCP0fdBZR0XlSRyUBCs6yuVdhs=" crossorigin="anonymous"></script>
         <link rel="stylesheet" href="less.css"/>
@@ -14,12 +14,9 @@
             const DateTime = luxon.DateTime;
             const today = DateTime.local();
 
-            function tag(name, cls) {
-                return $(`<${name}></${name}>`).addClass(cls ? cls : '');
-            }
+            const tag = (name, cls) => $(`<${name}></${name}>`).addClass(cls ? cls : '');
 
-
-            function drawMonth(dateTime) {
+            const drawMonth = dateTime => {
                 const dateTimeFirst = dateTime.startOf('month');
                 const dateTimeLast = dateTimeFirst.plus({months: '1'});
                 console.log(dateTimeFirst.toISODate(), dateTimeLast.toISODate());
@@ -45,39 +42,43 @@
                     ));
                 table.find(`[data-date=${today.toISODate()}]`).addClass('today');
                 return table;
-            }
-            $(function () {
-                const dateTime = DateTime.local();
+            };
+
+            const drawCalendar = ($calendar, dateTime) => {
+                $calendar.empty();
                 const dateTimePrevMonth = dateTime.minus({'months': 1});
                 const dateTimeNextMonth = dateTime.plus({'months': 1});
+                const arrayMonth = [
+                    dateTimePrevMonth,
+                    dateTime,
+                    dateTimeNextMonth,
+                ];
+                $calendar.append(tag('button', 'prev').text('<').click(() => {
+                    drawCalendar($calendar, dateTimePrevMonth);
+                }));
+                $calendar.append(arrayMonth.map(drawMonth));
+                $calendar.append(tag('button', 'next').text('>').click(() => {
+                    drawCalendar($calendar, dateTimeNextMonth);
+                }));
 
-                $('.calendar').append([
-                    drawMonth(dateTimePrevMonth),
-                    drawMonth(dateTime),
-                    drawMonth(dateTimeNextMonth),
-                ]);
-
-                // noinspection JSUnusedLocalSymbols
-                $.ajax({
-                    url: 'holiday.generated.json',
-                    method: 'get',
-                    success: function (data, textStatus, jqXHR) {
-                        console.log(data.map(v => ({...v, dateTime: DateTime.parse(v.date)})))
-                    },
-                    error: function (jqXHR, textStatus, errorThrown) {
-                        debugger;
-                    }
+                Promise.all(arrayMonth.map(date => {
+                    return $.get(`generated/ko-KR/${date.year}/${date.toFormat("MM")}.json`)
+                        .then(v => {
+                            v.forEach(w => $(`[data-date="${w.date}"]`).addClass('holiday').attr('title', w.name));
+                        })
+                        .catch(console.log);
+                })).then(ignore => {
+                    
                 });
+            };
+
+            $(() => {
+                const $calendar = $('.calendar');
+                drawCalendar($calendar, DateTime.local());
             });
-            console.log(100);
         </script>
     </head>
     <body>
-        <div class="calendar">
-            <table>
-                <tbody>
-                </tbody>
-            </table>
-        </div>
+        <div class="calendar"></div>
     </body>
 </html>

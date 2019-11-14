@@ -1,31 +1,56 @@
+html,
+body {
+  margin: 0;
+  padding: 0;
+  text-align: center;
+}
 .calendar {
-  font-size: 1vw;
+  position: relative;
+  font-size: 1.5vw;
+  padding-left: 3vw;
+  padding-right: 3vw;
+  display: inline-block;
 }
 .calendar table.month {
   border-collapse: collapse;
   display: inline-block;
   vertical-align: top;
-  margin: 10px;
+  margin: 1vw;
 }
 .calendar table.month td.yearMonth {
-  width: 4vw;
-  height: 4vw;
+  width: 3.5vw;
+  height: 3.5vw;
   text-align: center;
 }
 .calendar table.month td.day {
-  border: 1px solid #ccc;
-  width: 4vw;
-  height: 4vw;
+  border: 0.05vw solid #ccc;
+  width: 3.5vw;
+  height: 3.5vw;
   vertical-align: middle;
   text-align: center;
 }
 .calendar table.month td.day.weekday6 {
   color: #00f;
 }
-.calendar table.month td.day.weekday7 {
+.calendar table.month td.day.weekday7,
+.calendar table.month td.day.holiday {
   color: #f00;
 }
 .calendar table.month td.day.today {
-  background-color: #f00;
+  background-color: #eee;
+}
+.calendar button.prev,
+.calendar button.next {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+}
+.calendar button.prev.prev,
+.calendar button.next.prev {
+  left: 0;
+}
+.calendar button.prev.next,
+.calendar button.next.next {
+  right: 0;
 }
 /*# sourceMappingURL=less.css.map */

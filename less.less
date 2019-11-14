@@ -1,27 +1,41 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
 .calendar {
-    @cellSize: 4vw;
-    font-size: 1vw;
+    @cellSize: 3.5vw;
+    position: relative;
+    font-size: 1.5vw;
+    padding-left: 3vw;
+    padding-right: 3vw;
+    display: inline-block;
     table.month {
         border-collapse: collapse;
         display: inline-block;
         vertical-align: top;
-        margin: 10px;
+        margin: 1vw;
         td.yearMonth {
             width: @cellSize;
             height: @cellSize;
             text-align: center;
         }
         td.day {
-            border: 1px solid #ccc;
+            border: 0.05vw solid #ccc;
             width: @cellSize;
             height: @cellSize;
             vertical-align: middle;
             text-align: center;
             &.weekday6 { color: #00f; }
-            &.weekday7 { color: #f00; }
-            &.today {
-                background-color: #f00;
-            }
+            &.weekday7, &.holiday { color: #f00; }
+            &.today { background-color: #eee; }
         }
+    }
+    button.prev, button.next {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        &.prev { left: 0; }
+        &.next { right: 0; }
     }
 }

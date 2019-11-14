@@ -1,6 +1,9 @@
 const fs = require("fs");
+const fse = require("fs-extra");
 const { DateTime } = require("luxon");
 const axios = require('axios');
+const _ = require('lodash');
+
 
 const arrayHoliday = [
     { MM: '01', dd: '01', calendar: 'solar', expand: 0, alternate: '', name: '양력설' },
@@ -16,7 +19,12 @@ const arrayHoliday = [
     { MM: '12', dd: '25', calendar: 'solar', expand: 0, alternate: '', name: '기독탄신일' },
 ];
 
+const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
+
 const convertCalendarSolarToLunar = async ({yyyy, MM, dd}) => {
+    const ms = Math.random() * 10000;
+    await sleep(ms);
+    console.log("convertCalendarSolarToLunar", yyyy, MM, dd, ms);
     const response = await axios({
         method: 'GET',
         url: `https://astro.kasi.re.kr/life/lunc`,// ?yyyy=2020&mm=01&dd=01`,
@@ -133,11 +141,30 @@ async function calcHoliday(yyyy) {
 
 (async () => {
     try {
-        const arrayArrayHoliday = await Promise.all(Array(20).fill(0).map((v, i) => i + 2000).map(async yyyy => await calcHoliday(yyyy)));
+        const arrayYear = _.range(2000, 2030);
+        const arrayArrayHoliday = await Promise.all(arrayYear.map(async yyyy => await calcHoliday(yyyy)));
         const arrayHoliday = arrayArrayHoliday.flat();
         const arrayHolidayNormalized = arrayHoliday.map(({date, name}) => ({date, name}));
         const mapHoliday = arrayHolidayNormalized.reduce((a, v) => ({...a, [v.date]: v.name}), {});
-        fs.writeFileSync('holiday.generated.json', JSON.stringify(mapHoliday, null, 4), 'utf-8');
+        const holidayYear = _.groupBy(arrayHolidayNormalized, v => v.date.substr(0, 4));
+        const holidayMonth = _.groupBy(arrayHolidayNormalized, v => v.date.substr(0, 7));
+
+        await fse.ensureDir('generated');
+        await fse.ensureDir('generated/ko-KR');
+
+        fs.writeFileSync('generated/ko-KR/array.json', JSON.stringify(arrayHolidayNormalized, null, 4), 'utf-8');
+        fs.writeFileSync('generated/ko-KR/object.json', JSON.stringify(mapHoliday, null, 4), 'utf-8');
+        await Promise.all(_.toPairs(holidayYear).map(async ([k, v]) => {
+            const yyyy = k;
+            await fse.ensureDir(`generated/ko-KR/${yyyy}`);
+            fs.writeFileSync(`generated/ko-KR/${yyyy}/array.json`, JSON.stringify(v, null, 4), 'utf-8');
+        }));
+        await Promise.all(_.toPairs(holidayMonth).map(async ([k, v]) => {
+            const yyyy = k.substring(0, 4);
+            const MM = k.substring(5, 7);
+            await fse.ensureDir(`generated/ko-KR/${yyyy}`);
+            fs.writeFileSync(`generated/ko-KR/${yyyy}/${MM}.json`, JSON.stringify(v, null, 4), 'utf-8');
+        }));
     } catch(e) {
         console.error(e);
     }
