@@ -6,8 +6,8 @@ html, body {
 }
 .calendar {
     @cellSize: 3.5vw;
-    
-    font-size: 1.5vw;
+    @fontSize: 1.5vw;
+    font-size: @fontSize;
     margin: 0;
     height: 100%;
     text-align: center;
@@ -24,6 +24,7 @@ html, body {
             width: @cellSize;
             height: @cellSize;
             text-align: center;
+            font-size: @fontSize * 1.5;
         }
         td.day {
             border: 0.05vw solid #ccc;
