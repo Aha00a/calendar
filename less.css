@@ -46,6 +46,7 @@ body {
 .calendar button.prev,
 .calendar button.next {
   position: fixed;
+  transform: translate3d(0, 0, 0);
   top: 0;
   bottom: 0;
   width: 3.5vw;
