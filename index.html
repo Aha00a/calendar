@@ -74,10 +74,42 @@
                     
                 });
             };
+            const getDateTimeFromHash = () => {
+                const hash = location.hash;
+                console.log(hash);
+                if(!hash)
+                    return DateTime.local();
 
+                const hashVal = hash.substr(1);
+                if(!hashVal)
+                    return DateTime.local();
+
+                return DateTime.local();
+
+                // TODO:
+                // {
+                //     const match = hashVal.match(/^\d{4}$/);
+                //     if(match) {
+                //
+                //     }
+                // }
+                // {
+                //     const match = hashVal.match(/^\d{4}$/);
+                //     if(match) {
+                //
+                //     }
+                // }
+                // {
+                //     const match = hashVal.match(/^\d{4}$/);
+                //     if(match) {
+                //
+                //     }
+                // }
+
+            };
             $(() => {
                 const $calendar = $('.calendar');
-                drawCalendar($calendar, DateTime.local());
+                drawCalendar($calendar, getDateTimeFromHash());
             });
         </script>
     </head>
