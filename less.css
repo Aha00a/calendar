@@ -69,7 +69,7 @@ body {
 .calendar button.next.next {
   right: 0;
 }
-a.gitHubLink {
+.links {
   position: fixed;
   left: 7vw;
   bottom: 3.5vw;
