@@ -17,7 +17,7 @@
   },
   "homepage": "https://github.com/Aha00a/calendar#readme",
   "dependencies": {
-    "axios": "^0.19.0",
+    "axios": "^0.21.1",
     "fs-extra": "^8.1.0",
     "lodash": "^4.17.19",
     "luxon": "^1.21.1"
